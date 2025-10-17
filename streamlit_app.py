@@ -33,7 +33,9 @@ G = nx.DiGraph()
 # --- Build Graph ---
 for entry in pathway.entries.values():
     if entry.type in ["gene", "enzyme", "compound"]:
-        G.add_node(entry.id, name=entry.name, label=entry.graphics.name, type=entry.type)
+        label = entry.graphics.name if hasattr(entry, "graphics") else entry.name
+        G.add_node(entry.id, name=entry.name, label=label, type=entry.type)
+
 
 for relation in pathway.relations:
     G.add_edge(relation.entry1.id, relation.entry2.id, type=relation.type)
